@@ -1,5 +1,3 @@
-// main.js
-
 var config = {
   type: Phaser.AUTO,
   scale: {
@@ -9,14 +7,7 @@ var config = {
     width: 800,
     height: 600
   },
-  scene: [
-    BootScene,
-    PreloadScene,
-    StartMenuScene,
-    Level1Scene,
-    Level2Scene,
-    Level3Scene
-  ],
+  scene: [StartMenuScene],
   input: {
     activePointers: 1
   }

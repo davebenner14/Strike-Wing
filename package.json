@@ -1,0 +1,24 @@
+{
+  "name": "jumpman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davebenner14/Jumpman.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davebenner14/Jumpman/issues"
+  },
+  "homepage": "https://github.com/davebenner14/Jumpman#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
