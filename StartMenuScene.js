@@ -6,25 +6,44 @@ class StartMenuScene extends Phaser.Scene {
   create() {
     this.cameras.main.setBackgroundColor("#000");
 
-    let titleText = this.add.text(
-      this.cameras.main.centerX - 200,
-      50,
-      "Jump Man",
-      {
-        fontFamily: "VT323",
-        fontSize: "96px",
-        fill: "#ffffff" // This is where you set the color
-      }
-    );
+    // Adjusted Y position for the title and its shadows
+    const titleYPosition = 250;
 
-    // Adding shadow to the text
-    titleText.setShadow(2, 2, "#333333", 2, false, true);
+    // Magenta shadow text
+    this.add
+      .text(this.cameras.main.centerX + 7, titleYPosition + 7, "Jump Man", {
+        fontFamily: '"Press Start 2P"',
+        fontSize: "150px",
+        fill: "#ff00ff"
+      })
+      .setOrigin(0.5, 0.5);
 
-    this.pressStartText = this.add.text(300, 300, "Press Start", {
-      fontFamily: "VT323",
-      fontSize: "24px",
-      fill: "#fff"
-    });
+    // Cyan shadow text
+    this.add
+      .text(this.cameras.main.centerX + 5, titleYPosition + 5, "Jump Man", {
+        fontFamily: '"Press Start 2P"',
+        fontSize: "150px",
+        fill: "#00ffff"
+      })
+      .setOrigin(0.5, 0.5);
+
+    // Main title text
+    let titleText = this.add
+      .text(this.cameras.main.centerX, titleYPosition, "Jump Man", {
+        fontFamily: '"Press Start 2P"',
+        fontSize: "150px",
+        fill: "#ffffff"
+      })
+      .setOrigin(0.5, 0.5);
+
+    // Adjusted Y position for the pressStartText
+    this.pressStartText = this.add
+      .text(this.cameras.main.centerX, 400, "Press Start", {
+        fontFamily: '"Press Start 2P"',
+        fontSize: "24px",
+        fill: "#fff"
+      })
+      .setOrigin(0.5, 0.5);
 
     this.startTween = this.tweens.add({
       targets: this.pressStartText,
@@ -52,11 +71,15 @@ class StartMenuScene extends Phaser.Scene {
     let menuTexts = [];
 
     for (let i = 0; i < menuItems.length; i++) {
-      let yPosition = 300 + i * 50;
-      let text = this.add.text(300, yPosition, menuItems[i], {
-        fontSize: "24px",
-        fill: "#fff"
-      });
+      let yPosition = 500 + i * 50; // Adjusted starting yPosition for menu items
+      let text = this.add
+        .text(this.cameras.main.centerX, yPosition, menuItems[i], {
+          fontFamily: '"Press Start 2P"', // Using the desired font family
+          fontSize: "24px",
+          fill: "#fff"
+        })
+        .setOrigin(0.5, 0.5); // Centered text
+
       text.setInteractive();
 
       text.on("pointerdown", () => {
@@ -66,18 +89,18 @@ class StartMenuScene extends Phaser.Scene {
       menuTexts.push(text);
     }
 
-    menuTexts[selectedItem].setColor("#f00");
+    menuTexts[selectedItem].setColor("#fff");
 
     this.input.keyboard.on("keydown-UP", () => {
       menuTexts[selectedItem].setColor("#fff");
       selectedItem = (selectedItem - 1 + menuItems.length) % menuItems.length;
-      menuTexts[selectedItem].setColor("#f00");
+      menuTexts[selectedItem].setColor("#00ffff");
     });
 
     this.input.keyboard.on("keydown-DOWN", () => {
       menuTexts[selectedItem].setColor("#fff");
       selectedItem = (selectedItem + 1) % menuItems.length;
-      menuTexts[selectedItem].setColor("#f00");
+      menuTexts[selectedItem].setColor("#ff00ff");
     });
 
     this.input.keyboard.on("keydown-ENTER", () => {
