@@ -3,10 +3,16 @@ class StartMenuScene extends Phaser.Scene {
     super({ key: "StartMenuScene" });
   }
 
+  preload() {
+    this.load.audio(
+      "titleMusic",
+      "assets/audio/Dubmood___Cydonian_Sky_Part_1_(2000_version).mp3"
+    );
+  }
+
   create() {
     this.cameras.main.setBackgroundColor("#000");
 
-    // Adjusted Y position for the pressStartText
     this.pressStartText = this.add
       .text(this.cameras.main.centerX, 400, "Press Start", {
         fontFamily: '"Press Start 2P"',
@@ -36,19 +42,23 @@ class StartMenuScene extends Phaser.Scene {
   showMenu() {
     this.startTween.stop();
     this.pressStartText.setAlpha(0);
+
+    // Display the "Jumpman" logo
+    document.getElementById("game-title").style.display = "block";
+
     let menuItems = ["Start Game", "Story"];
     let selectedItem = 0;
     let menuTexts = [];
 
     for (let i = 0; i < menuItems.length; i++) {
-      let yPosition = 500 + i * 50; // Adjusted starting yPosition for menu items
+      let yPosition = 500 + i * 50;
       let text = this.add
         .text(this.cameras.main.centerX, yPosition, menuItems[i], {
-          fontFamily: '"Press Start 2P"', // Using the desired font family
+          fontFamily: '"Press Start 2P"',
           fontSize: "24px",
           fill: "#fff"
         })
-        .setOrigin(0.5, 0.5); // Centered text
+        .setOrigin(0.5, 0.5);
 
       text.setInteractive();
 
@@ -76,10 +86,17 @@ class StartMenuScene extends Phaser.Scene {
     this.input.keyboard.on("keydown-ENTER", () => {
       this.selectOption(selectedItem);
     });
+
+    this.music = this.sound.add("titleMusic", { volume: 0.5, loop: true });
+    this.music.play();
   }
 
   selectOption(selectedItem) {
+    // Hide the "Jumpman" logo
+    document.getElementById("game-title").style.display = "none";
+
     if (selectedItem === 0) {
+      this.music.stop();
       this.scene.start("Level1Scene");
     } else if (selectedItem === 1) {
       console.log("Story selected");

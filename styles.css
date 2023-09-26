@@ -1,8 +1,3 @@
-@font-face {
-  font-family: "Press Start 2P";
-  src: url("path_to_your_font_file.woff") format("woff");
-}
-
 canvas {
   image-rendering: -moz-crisp-edges;
   image-rendering: -o-crisp-edges;
@@ -67,6 +62,7 @@ canvas {
 }
 
 #game-title {
+  display: none;
   position: absolute;
   top: 120px;
   left: 50%;
