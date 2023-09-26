@@ -6,36 +6,6 @@ class StartMenuScene extends Phaser.Scene {
   create() {
     this.cameras.main.setBackgroundColor("#000");
 
-    // Adjusted Y position for the title and its shadows
-    const titleYPosition = 250;
-
-    // Magenta shadow text
-    this.add
-      .text(this.cameras.main.centerX + 7, titleYPosition + 7, "Jump Man", {
-        fontFamily: '"Press Start 2P"',
-        fontSize: "150px",
-        fill: "#ff00ff"
-      })
-      .setOrigin(0.5, 0.5);
-
-    // Cyan shadow text
-    this.add
-      .text(this.cameras.main.centerX + 5, titleYPosition + 5, "Jump Man", {
-        fontFamily: '"Press Start 2P"',
-        fontSize: "150px",
-        fill: "#00ffff"
-      })
-      .setOrigin(0.5, 0.5);
-
-    // Main title text
-    let titleText = this.add
-      .text(this.cameras.main.centerX, titleYPosition, "Jump Man", {
-        fontFamily: '"Press Start 2P"',
-        fontSize: "150px",
-        fill: "#ffffff"
-      })
-      .setOrigin(0.5, 0.5);
-
     // Adjusted Y position for the pressStartText
     this.pressStartText = this.add
       .text(this.cameras.main.centerX, 400, "Press Start", {

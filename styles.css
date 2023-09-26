@@ -1,0 +1,79 @@
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("path_to_your_font_file.woff") format("woff");
+}
+
+canvas {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+@keyframes glowEffect {
+  0% {
+    color: #ffffff;
+    text-shadow: 4px 4px 0px #ff00ff, 2px 2px 0px #00ffff;
+  }
+  50% {
+    color: #ff00ff;
+    text-shadow: 4px 4px 20px #ff00ff, 2px 2px 10px #00ffff;
+  }
+  100% {
+    color: #ffffff;
+    text-shadow: 4px 4px 0px #ff00ff, 2px 2px 0px #00ffff;
+  }
+}
+
+@keyframes neonFlicker {
+  0%,
+  100% {
+    text-shadow: 4px 4px 5px #ff00ff, 2px 2px 3px #00ffff;
+  }
+  10% {
+    text-shadow: 4px 4px 10px #ff00ff, 2px 2px 8px #00ffff;
+  }
+  15% {
+    text-shadow: 4px 4px 15px #ff00ff, 2px 2px 10px #00ffff;
+  }
+  20% {
+    text-shadow: 4px 4px 10px #ff00ff, 2px 2px 8px #00ffff;
+  }
+  25%,
+  35% {
+    text-shadow: 4px 4px 8px #ff00ff, 2px 2px 6px #00ffff;
+  }
+  30%,
+  50%,
+  60%,
+  70%,
+  85% {
+    text-shadow: 4px 4px 12px #ff00ff, 2px 2px 9px #00ffff;
+  }
+  40%,
+  75% {
+    text-shadow: 4px 4px 5px #ff00ff, 2px 2px 4px #00ffff;
+  }
+  45%,
+  80% {
+    text-shadow: 4px 4px 10px #ff00ff, 2px 2px 8px #00ffff;
+  }
+  90% {
+    text-shadow: 4px 4px 7px #ff00ff, 2px 2px 5px #00ffff;
+  }
+  95% {
+    text-shadow: 4px 4px 12px #ff00ff, 2px 2px 9px #00ffff;
+  }
+}
+
+#game-title {
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Press Start 2P";
+  font-size: 50px;
+  color: #ffffff;
+  text-shadow: 4px 4px 5px #ff00ff, 2px 2px 3px #00ffff;
+  animation: neonFlicker 2.5s infinite;
+}
