@@ -104,7 +104,7 @@ class StartMenuScene extends Phaser.Scene {
       this.music.stop();
       this.scene.start("Level1Scene");
     } else if (selectedItem === 1) {
-      console.log("Story selected");
+      this.scene.start("StoryScene");
     }
   }
 }

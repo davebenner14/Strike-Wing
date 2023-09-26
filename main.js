@@ -7,7 +7,7 @@ var config = {
     width: 800,
     height: 600
   },
-  scene: [StartMenuScene],
+  scene: [StartMenuScene, StoryScene],
   input: {
     activePointers: 1
   }
