@@ -44,7 +44,6 @@ class StartMenuScene extends Phaser.Scene {
   showMenu() {
     this.startTween.stop();
     this.pressStartText.setAlpha(0);
-
     document.getElementById("game-title").style.display = "block";
 
     let menuItems = ["Start Game", "Story"];
@@ -59,19 +58,16 @@ class StartMenuScene extends Phaser.Scene {
           fontSize: "24px",
           fill: "#fff"
         })
-        .setOrigin(0.5, 0.5);
-
-      text.setInteractive();
-
-      text.on("pointerdown", () => {
-        this.selectOption(selectedItem);
-      });
+        .setOrigin(0.5, 0.5)
+        .setInteractive()
+        .on("pointerdown", () => {
+          this.selectOption(selectedItem);
+        });
 
       menuTexts.push(text);
     }
 
     menuTexts[selectedItem].setColor("#fff");
-
     this.input.keyboard.on("keydown-UP", () => {
       this.sound.play("clickSound");
       menuTexts[selectedItem].setColor("#fff");
@@ -92,7 +88,9 @@ class StartMenuScene extends Phaser.Scene {
 
     if (!this.music || !this.music.isPlaying) {
       this.music = this.sound.add("titleMusic", { volume: 0.5, loop: true });
-      this.music.play();
+      this.time.delayedCall(100, () => {
+        this.music.play();
+      });
     }
   }
 
