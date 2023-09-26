@@ -28,7 +28,6 @@ class StoryScene extends Phaser.Scene {
       "Every leap would defy the natural order; each bound would resonate with the energy of the universe itself.",
       "The stage was set, and Jumponia's fate rested in the hands of this enigmatic jumper.",
       "The journey would not be easy. Towering obstacles, devious traps, and the ever-looming presence of the gravity-beasts lay ahead.",
-      "But in Jumpman, the universe might just have found its hero.",
       "And so begins the tale of Jumpman and his quest to restore balance to a world on the brink."
     ];
 
