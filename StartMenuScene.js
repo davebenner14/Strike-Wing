@@ -8,6 +8,8 @@ class StartMenuScene extends Phaser.Scene {
       "titleMusic",
       "assets/audio/Dubmood___Cydonian_Sky_Part_1_(2000_version).mp3"
     );
+    this.load.audio("clickSound", "assets/audio/click-button-menu-147349.mp3");
+    this.load.audio("selectSound", "assets/audio/level-passed-142971.mp3");
   }
 
   create() {
@@ -43,7 +45,6 @@ class StartMenuScene extends Phaser.Scene {
     this.startTween.stop();
     this.pressStartText.setAlpha(0);
 
-    // Display the "Jumpman" logo
     document.getElementById("game-title").style.display = "block";
 
     let menuItems = ["Start Game", "Story"];
@@ -72,12 +73,14 @@ class StartMenuScene extends Phaser.Scene {
     menuTexts[selectedItem].setColor("#fff");
 
     this.input.keyboard.on("keydown-UP", () => {
+      this.sound.play("clickSound");
       menuTexts[selectedItem].setColor("#fff");
       selectedItem = (selectedItem - 1 + menuItems.length) % menuItems.length;
       menuTexts[selectedItem].setColor("#00ffff");
     });
 
     this.input.keyboard.on("keydown-DOWN", () => {
+      this.sound.play("clickSound");
       menuTexts[selectedItem].setColor("#fff");
       selectedItem = (selectedItem + 1) % menuItems.length;
       menuTexts[selectedItem].setColor("#ff00ff");
@@ -87,12 +90,14 @@ class StartMenuScene extends Phaser.Scene {
       this.selectOption(selectedItem);
     });
 
-    this.music = this.sound.add("titleMusic", { volume: 0.5, loop: true });
-    this.music.play();
+    if (!this.music || !this.music.isPlaying) {
+      this.music = this.sound.add("titleMusic", { volume: 0.5, loop: true });
+      this.music.play();
+    }
   }
 
   selectOption(selectedItem) {
-    // Hide the "Jumpman" logo
+    this.sound.play("selectSound");
     document.getElementById("game-title").style.display = "none";
 
     if (selectedItem === 0) {
