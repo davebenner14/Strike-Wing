@@ -1,3 +1,13 @@
+body {
+  background-color: #000;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 canvas {
   image-rendering: -moz-crisp-edges;
   image-rendering: -o-crisp-edges;
@@ -64,7 +74,7 @@ canvas {
 #game-title {
   display: none;
   position: absolute;
-  top: 120px;
+  top: 30%;
   left: 50%;
   transform: translateX(-50%);
   font-family: "Press Start 2P";
