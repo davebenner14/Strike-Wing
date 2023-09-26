@@ -33,6 +33,8 @@ class StartMenuScene extends Phaser.Scene {
     });
 
     this.input.on("pointerdown", () => {
+      this.sound.play("selectSound");
+
       this.showMenu();
     });
 
