@@ -52,36 +52,47 @@ class StartMenuScene extends Phaser.Scene {
     let selectedItem = 0;
     let menuTexts = [];
 
-    for (let i = 0; i < menuItems.length; i++) {
-      let yPosition = 500 + i * 50;
-      let text = this.add
-        .text(this.cameras.main.centerX, yPosition, menuItems[i], {
-          fontFamily: '"Press Start 2P"',
-          fontSize: "24px",
-          fill: "#fff"
-        })
-        .setOrigin(0.5, 0.5)
-        .setInteractive()
-        .on("pointerdown", () => {
-          this.selectOption(selectedItem);
-        });
+    let changeSelectedItem = (newIndex) => {
+      console.log(`Selected index changed to ${newIndex}`);
+      menuTexts.forEach((text) => text.destroy()); // Destroy all old text objects
+      menuTexts = []; // Clear the menuTexts array
+      for (let i = 0; i < menuItems.length; i++) {
+        let yPosition = 500 + i * 50;
+        let color = i === newIndex ? "#ff00ff" : "#fff"; // Set color based on selected index
+        let text = this.add
+          .text(this.cameras.main.centerX, yPosition, menuItems[i], {
+            fontFamily: '"Press Start 2P"',
+            fontSize: "24px",
+            fill: color
+          })
+          .setOrigin(0.5, 0.5)
+          .setInteractive({ useHandCursor: true });
 
-      menuTexts.push(text);
-    }
+        text.on(
+          "pointerdown",
+          () => {
+            this.sound.play("clickSound");
+            changeSelectedItem(i);
+          },
+          this
+        );
+        menuTexts.push(text); // Push the new text object to the array
+      }
+      selectedItem = newIndex;
+    };
 
-    menuTexts[selectedItem].setColor("#fff");
+    changeSelectedItem(selectedItem); // Set initial highlight
+
     this.input.keyboard.on("keydown-UP", () => {
       this.sound.play("clickSound");
-      menuTexts[selectedItem].setColor("#fff");
-      selectedItem = (selectedItem - 1 + menuItems.length) % menuItems.length;
-      menuTexts[selectedItem].setColor("#00ffff");
+      changeSelectedItem(
+        (selectedItem - 1 + menuItems.length) % menuItems.length
+      );
     });
 
     this.input.keyboard.on("keydown-DOWN", () => {
       this.sound.play("clickSound");
-      menuTexts[selectedItem].setColor("#fff");
-      selectedItem = (selectedItem + 1) % menuItems.length;
-      menuTexts[selectedItem].setColor("#ff00ff");
+      changeSelectedItem((selectedItem + 1) % menuItems.length);
     });
 
     this.input.keyboard.on("keydown-ENTER", () => {
