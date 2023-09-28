@@ -4,14 +4,8 @@ class StoryScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image(
-      "jumpmanCloseUp",
-      "assets/images/Screenshot 2023-09-26 at 12.26.39 PM.png"
-    );
-    this.load.image(
-      "jumpmanFull",
-      "assets/images/DreamShaper_v7_male_character_with_shoulder_length_blonde_hair_0 (2).jpg"
-    );
+    this.load.image();
+    this.load.image();
   }
 
   create() {
@@ -67,7 +61,7 @@ class StoryScene extends Phaser.Scene {
       if (this.textIndex === 5) {
         this.time.delayedCall(2000, () => {
           this.jumpmanCloseUp = this.add
-            .image(400, 300, "jumpmanCloseUp")
+            .image(400, 300, "")
             .setAlpha(0)
             .setScale(0.7);
           this.tweens.add({
@@ -83,7 +77,7 @@ class StoryScene extends Phaser.Scene {
           this.jumpmanCloseUp.destroy();
         }
         let jumpmanFull = this.add
-          .image(400, 400, "jumpmanFull")
+          .image(400, 400, "")
           .setAlpha(0)
           .setScale(0.4);
         this.tweens.add({

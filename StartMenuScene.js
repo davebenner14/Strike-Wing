@@ -54,11 +54,11 @@ class StartMenuScene extends Phaser.Scene {
 
     let changeSelectedItem = (newIndex) => {
       console.log(`Selected index changed to ${newIndex}`);
-      menuTexts.forEach((text) => text.destroy()); // Destroy all old text objects
-      menuTexts = []; // Clear the menuTexts array
+      menuTexts.forEach((text) => text.destroy());
+      menuTexts = [];
       for (let i = 0; i < menuItems.length; i++) {
         let yPosition = 500 + i * 50;
-        let color = i === newIndex ? "#ff00ff" : "#fff"; // Set color based on selected index
+        let color = i === newIndex ? "#ff00ff" : "#fff";
         let text = this.add
           .text(this.cameras.main.centerX, yPosition, menuItems[i], {
             fontFamily: '"Press Start 2P"',
@@ -76,12 +76,12 @@ class StartMenuScene extends Phaser.Scene {
           },
           this
         );
-        menuTexts.push(text); // Push the new text object to the array
+        menuTexts.push(text);
       }
       selectedItem = newIndex;
     };
 
-    changeSelectedItem(selectedItem); // Set initial highlight
+    changeSelectedItem(selectedItem);
 
     this.input.keyboard.on("keydown-UP", () => {
       this.sound.play("clickSound");
