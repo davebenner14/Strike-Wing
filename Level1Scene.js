@@ -26,7 +26,7 @@ export default class Level1Scene extends Phaser.Scene {
         `assets/images/backgrounds/level1/cloud${i}.png`
       );
     }
-    this.load.image("greenPlane", "assets/images/planes/plane_2_green.png");
+    this.load.image("jet1", "assets/images/planes/jet1.png");
   }
 
   create() {
@@ -54,7 +54,7 @@ export default class Level1Scene extends Phaser.Scene {
     this.plane = this.add.sprite(
       this.scale.width * 0.1,
       this.scale.height / 2,
-      "greenPlane"
+      "jet1"
     );
     this.plane.setScale(0.5);
   }
