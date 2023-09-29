@@ -24,18 +24,23 @@ class VirtualJoystickGraphic {
     });
 
     this.stickCircle.on("drag", (pointer, dragX, dragY) => {
-      let distance = Phaser.Math.Distance.Between(this.x, this.y, dragX, dragY);
+      const distance = Phaser.Math.Distance.Between(
+        this.x,
+        this.y,
+        dragX,
+        dragY
+      );
       if (distance < 50) {
         this.stickCircle.x = dragX;
         this.stickCircle.y = dragY;
       } else {
-        let angle = Phaser.Math.Angle.Between(this.x, this.y, dragX, dragY);
+        const angle = Phaser.Math.Angle.Between(this.x, this.y, dragX, dragY);
         this.stickCircle.x = this.x + 50 * Math.cos(angle);
         this.stickCircle.y = this.y + 50 * Math.sin(angle);
       }
     });
 
-    this.stickCircle.on("dragend", (pointer, dragX, dragY) => {
+    this.stickCircle.on("dragend", () => {
       this.dragging = false;
       this.stickCircle.x = this.x;
       this.stickCircle.y = this.y;

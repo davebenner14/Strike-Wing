@@ -4,6 +4,11 @@ import ArcadeButtons from "./ArcadeButtons.js";
 class StartMenuScene extends Phaser.Scene {
   constructor() {
     super({ key: "StartMenuScene" });
+    this.inputCooldown = false;
+    this.menuItems = ["Start Game", "Story"];
+    this.selectedItem = 0;
+    this.menuTexts = [];
+    this.lastDirection = null;
   }
 
   preload() {
@@ -52,6 +57,34 @@ class StartMenuScene extends Phaser.Scene {
     this.input.keyboard.on("keydown-ENTER", () => {
       this.showMenu();
     });
+  }
+  changeSelectedItem(newIndex) {
+    console.log(`Selected index changed to ${newIndex}`);
+    this.menuTexts.forEach((text) => text.destroy());
+    this.menuTexts = [];
+    for (let i = 0; i < this.menuItems.length; i++) {
+      let yPosition = 500 + i * 50;
+      let color = i === newIndex ? "#ff00ff" : "#fff";
+      let text = this.add
+        .text(this.cameras.main.centerX, yPosition, this.menuItems[i], {
+          fontFamily: '"Press Start 2P"',
+          fontSize: "24px",
+          fill: color
+        })
+        .setOrigin(0.5, 0.5)
+        .setInteractive({ useHandCursor: true });
+
+      text.on(
+        "pointerdown",
+        () => {
+          this.sound.play("clickSound");
+          this.changeSelectedItem(i);
+        },
+        this
+      );
+      this.menuTexts.push(text);
+    }
+    this.selectedItem = newIndex;
   }
 
   showMenu() {
@@ -117,6 +150,51 @@ class StartMenuScene extends Phaser.Scene {
         this.music.play();
       });
     }
+  }
+
+  update() {
+    if (this.inputCooldown) return;
+
+    const deltaX =
+      this.virtualJoystick.stickCircle.x - this.virtualJoystick.baseCircle.x;
+    const deltaY =
+      this.virtualJoystick.stickCircle.y - this.virtualJoystick.baseCircle.y;
+
+    let currentDirection = null;
+
+    if (deltaY < -20) {
+      currentDirection = "up";
+    } else if (deltaY > 20) {
+      currentDirection = "down";
+    }
+
+    if (currentDirection !== this.lastDirection) {
+      if (currentDirection === "up") {
+        this.changeSelectedItem(
+          (this.selectedItem - 1 + this.menuItems.length) %
+            this.menuItems.length
+        );
+        this.setInputCooldown();
+      } else if (currentDirection === "down") {
+        this.changeSelectedItem(
+          (this.selectedItem + 1) % this.menuItems.length
+        );
+        this.setInputCooldown();
+      }
+      this.lastDirection = currentDirection;
+    }
+  }
+
+  setInputCooldown() {
+    this.inputCooldown = true;
+    this.time.delayedCall(
+      200,
+      () => {
+        this.inputCooldown = false;
+      },
+      [],
+      this
+    );
   }
 
   selectOption(selectedItem) {
