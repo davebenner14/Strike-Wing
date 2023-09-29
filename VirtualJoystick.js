@@ -37,7 +37,7 @@ class VirtualJoystickGraphic {
 
     this.stickCircle.on("dragend", (pointer, dragX, dragY) => {
       this.dragging = false;
-      this.stickCircle.x = this.x; // Reset the stick position
+      this.stickCircle.x = this.x;
       this.stickCircle.y = this.y;
     });
   }

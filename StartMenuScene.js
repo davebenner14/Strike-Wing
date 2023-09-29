@@ -1,4 +1,5 @@
 import VirtualJoystick from "./VirtualJoystick.js";
+import ArcadeButtons from "./ArcadeButtons.js";
 
 class StartMenuScene extends Phaser.Scene {
   constructor() {
@@ -16,12 +17,14 @@ class StartMenuScene extends Phaser.Scene {
   create() {
     this.cameras.main.setBackgroundColor("#000");
 
-    let yOffsetPercentage = 10; // You can adjust this value
+    let yOffsetPercentage = 10;
     let calculatedY =
       this.sys.game.config.height -
       this.sys.game.config.height * (yOffsetPercentage / 100);
-    this.virtualJoystick = new VirtualJoystick(this, 100, calculatedY); // Adjusted Y-coordinate
+    this.virtualJoystick = new VirtualJoystick(this, 100, calculatedY);
     this.virtualJoystick.draw();
+    this.arcadeButtons = new ArcadeButtons(this);
+    this.arcadeButtons.createButtons();
 
     this.pressStartText = this.add
       .text(this.cameras.main.centerX, 400, "Press Start", {
