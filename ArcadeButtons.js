@@ -23,6 +23,7 @@ class ArcadeButtons {
       .circle(750, 550, buttonRadius, buttonColor)
       .setAlpha(alpha)
       .setInteractive();
+    console.log("Assigned callback for buttonB:", buttonBCallback);
     this.buttonBCallback = buttonBCallback;
     this.buttonB.on("pointerdown", this.handleButtonBPress, this);
   }

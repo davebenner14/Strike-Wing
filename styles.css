@@ -83,3 +83,10 @@ canvas {
   text-shadow: 4px 4px 5px #ff00ff, 2px 2px 3px #00ffff;
   animation: neonFlicker 2.5s infinite;
 }
+.game-title-hidden {
+  display: none !important;
+}
+
+.game-title-visible {
+  display: block !important;
+}

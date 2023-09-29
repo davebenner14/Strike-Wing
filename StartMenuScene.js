@@ -9,6 +9,7 @@ class StartMenuScene extends Phaser.Scene {
     this.selectedItem = 0;
     this.menuTexts = [];
     this.lastDirection = null;
+    this.shouldDisplayTitle = true;
   }
 
   preload() {
@@ -19,6 +20,13 @@ class StartMenuScene extends Phaser.Scene {
     this.load.audio("clickSound", "assets/audio/click-button-menu-147349.mp3");
     this.load.audio("selectSound", "assets/audio/level-passed-142971.mp3");
   }
+  enterStoryScene() {
+    this.shouldDisplayTitle = false;
+    let gameTitleElement = document.getElementById("game-title");
+    gameTitleElement.style.display = "none";
+    this.scene.start("StoryScene");
+  }
+
   create() {
     this.cameras.main.setBackgroundColor("#000");
 
@@ -88,12 +96,16 @@ class StartMenuScene extends Phaser.Scene {
     }
     this.selectedItem = newIndex;
   }
-
   showMenu() {
+    console.log("showMenu function called");
+
     this.virtualJoystick.show();
     this.startTween.stop();
     this.pressStartText.setAlpha(0);
-    document.getElementById("game-title").style.display = "block";
+
+    if (this.shouldDisplayTitle) {
+      document.getElementById("game-title").style.display = "block";
+    }
 
     let menuItems = ["Start Game", "Story"];
     let selectedItem = 0;
@@ -114,7 +126,6 @@ class StartMenuScene extends Phaser.Scene {
           })
           .setOrigin(0.5, 0.5)
           .setInteractive({ useHandCursor: true });
-
         text.on(
           "pointerdown",
           () => {
@@ -152,6 +163,8 @@ class StartMenuScene extends Phaser.Scene {
         this.music.play();
       });
     }
+
+    console.log("showMenu function ending");
   }
 
   update() {
@@ -198,16 +211,21 @@ class StartMenuScene extends Phaser.Scene {
       this
     );
   }
-
   selectOption(selectedItem) {
+    console.log("Selected Option:", selectedItem);
     this.sound.play("selectSound");
-    document.getElementById("game-title").style.display = "none";
 
     if (selectedItem === 0) {
-      this.music.stop();
+      console.log("Selected Start Game - proceeding to Level1Scene");
+      if (this.music) {
+        this.music.stop();
+      }
       this.scene.start("Level1Scene");
     } else if (selectedItem === 1) {
-      this.scene.start("StoryScene");
+      console.log("Selected Story - proceeding to StoryScene");
+      this.enterStoryScene();
+    } else {
+      console.error("Invalid selected item:", selectedItem);
     }
   }
 }
