@@ -1,13 +1,12 @@
-// ArcadeButtons.js
-
 class ArcadeButtons {
   constructor(scene) {
     this.scene = scene;
     this.buttonA = null;
     this.buttonB = null;
+    this.buttonBCallback = null;
   }
 
-  createButtons() {
+  createButtons(buttonBCallback) {
     const buttonRadius = 25;
     const buttonColor = 0xff0000;
     const alpha = 0.5;
@@ -24,17 +23,17 @@ class ArcadeButtons {
       .circle(750, 550, buttonRadius, buttonColor)
       .setAlpha(alpha)
       .setInteractive();
+    this.buttonBCallback = buttonBCallback;
     this.buttonB.on("pointerdown", this.handleButtonBPress, this);
   }
 
   handleButtonAPress() {
     console.log("Button A Pressed!");
-    // Additional logic for Button A
   }
 
   handleButtonBPress() {
     console.log("Button B Pressed!");
-    // Additional logic for Button B
+    if (this.buttonBCallback) this.buttonBCallback();
   }
 }
 

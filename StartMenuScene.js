@@ -29,7 +29,9 @@ class StartMenuScene extends Phaser.Scene {
     this.virtualJoystick = new VirtualJoystick(this, 100, calculatedY);
     this.virtualJoystick.draw();
     this.arcadeButtons = new ArcadeButtons(this);
-    this.arcadeButtons.createButtons();
+    this.arcadeButtons.createButtons(() =>
+      this.selectOption(this.selectedItem)
+    );
 
     this.pressStartText = this.add
       .text(this.cameras.main.centerX, 400, "Press Start", {
