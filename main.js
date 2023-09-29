@@ -1,5 +1,6 @@
 import StartMenuScene from "./StartMenuScene.js";
 import StoryScene from "./StoryScene.js";
+import Level1Scene from "./Level1Scene.js"; // Make sure the path is correct
 
 var config = {
   type: Phaser.AUTO,
@@ -10,7 +11,7 @@ var config = {
     width: 800,
     height: 600
   },
-  scene: [StartMenuScene, StoryScene],
+  scene: [StartMenuScene, StoryScene, Level1Scene], // Added Level1Scene
   input: {
     activePointers: 1
   }
