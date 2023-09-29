@@ -1,3 +1,6 @@
+import StartMenuScene from "./StartMenuScene.js";
+import StoryScene from "./StoryScene.js";
+
 var config = {
   type: Phaser.AUTO,
   scale: {

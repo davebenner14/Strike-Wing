@@ -1,3 +1,5 @@
+import VirtualJoystick from "./VirtualJoystick.js";
+
 class StartMenuScene extends Phaser.Scene {
   constructor() {
     super({ key: "StartMenuScene" });
@@ -11,9 +13,15 @@ class StartMenuScene extends Phaser.Scene {
     this.load.audio("clickSound", "assets/audio/click-button-menu-147349.mp3");
     this.load.audio("selectSound", "assets/audio/level-passed-142971.mp3");
   }
-
   create() {
     this.cameras.main.setBackgroundColor("#000");
+
+    let yOffsetPercentage = 10; // You can adjust this value
+    let calculatedY =
+      this.sys.game.config.height -
+      this.sys.game.config.height * (yOffsetPercentage / 100);
+    this.virtualJoystick = new VirtualJoystick(this, 100, calculatedY); // Adjusted Y-coordinate
+    this.virtualJoystick.draw();
 
     this.pressStartText = this.add
       .text(this.cameras.main.centerX, 400, "Press Start", {
@@ -44,6 +52,7 @@ class StartMenuScene extends Phaser.Scene {
   }
 
   showMenu() {
+    this.virtualJoystick.show();
     this.startTween.stop();
     this.pressStartText.setAlpha(0);
     document.getElementById("game-title").style.display = "block";
@@ -119,3 +128,4 @@ class StartMenuScene extends Phaser.Scene {
     }
   }
 }
+export default StartMenuScene;
