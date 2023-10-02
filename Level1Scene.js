@@ -30,8 +30,11 @@ export default class Level1Scene extends Phaser.Scene {
       );
     }
     this.load.image("jet1", "assets/images/planes/jet1.png");
+    this.load.image("jet2", "assets/images/planes/jet2.png");
   }
   create() {
+    document.getElementById("game-title").style.display = "none";
+
     this.music = this.sound.add("risingWave", { loop: true });
     this.music.play();
 
@@ -60,23 +63,37 @@ export default class Level1Scene extends Phaser.Scene {
     );
     this.plane.setScale(0.5);
 
-    // Instantiate your joystick here
-    this.joystick = new VirtualJoystickGraphic(this, 100, 500); // set x, y appropriately
+    this.joystick = new VirtualJoystickGraphic(this, 100, 500);
   }
-
   update() {
-    // Update background position for scrolling effect
     this.background1.tilePositionX += 0.5;
     this.background2.tilePositionX += 1;
     this.background3.tilePositionX += 1.5;
 
-    // Control the plane with the joystick
     if (this.joystick.dragging) {
       const deltaX = this.joystick.stickCircle.x - this.joystick.x;
       const deltaY = this.joystick.stickCircle.y - this.joystick.y;
 
-      this.plane.x += deltaX * 0.1; // multiply by a speed factor if necessary
-      this.plane.y += deltaY * 0.1; // multiply by a speed factor if necessary
+      this.plane.x += deltaX * 0.1;
+      this.plane.y += deltaY * 0.1;
+
+      if (deltaY != 0) {
+        if (!this.changeTimer) {
+          this.changeTimer = this.time.now;
+        }
+        if (this.time.now - this.changeTimer > 1000) {
+          this.plane.setTexture("jet2");
+          this.plane.setScale(0.25);
+        }
+      } else {
+        this.changeTimer = null;
+        this.plane.setTexture("jet1");
+        this.plane.setScale(0.2);
+      }
+    } else {
+      this.changeTimer = null;
+      this.plane.setTexture("jet1");
+      this.plane.setScale(0.2);
     }
   }
 }
