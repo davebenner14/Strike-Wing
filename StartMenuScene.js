@@ -5,7 +5,19 @@ class StartMenuScene extends Phaser.Scene {
   constructor() {
     super({ key: "StartMenuScene" });
     this.inputCooldown = false;
-    this.menuItems = ["Start Game", "Story"];
+    this.menuItems = ["Start Game", "Story", "Level Select"];
+    this.levelItems = [
+      "Level 1",
+      "Level 2",
+      "Level 3",
+      "Level 4",
+      "Level 5",
+      "Level 6",
+      "Level 7",
+      "Level 8"
+    ];
+    this.subMenuActive = false;
+    this.activeMenuItems = this.menuItems;
     this.selectedItem = 0;
     this.menuTexts = [];
     this.lastDirection = null;
@@ -72,11 +84,11 @@ class StartMenuScene extends Phaser.Scene {
     console.log(`Selected index changed to ${newIndex}`);
     this.menuTexts.forEach((text) => text.destroy());
     this.menuTexts = [];
-    for (let i = 0; i < this.menuItems.length; i++) {
+    for (let i = 0; i < this.activeMenuItems.length; i++) {
       let yPosition = 500 + i * 50;
       let color = i === newIndex ? "#ff00ff" : "#fff";
       let text = this.add
-        .text(this.cameras.main.centerX, yPosition, this.menuItems[i], {
+        .text(this.cameras.main.centerX, yPosition, this.activeMenuItems[i], {
           fontFamily: '"Press Start 2P"',
           fontSize: "24px",
           fill: color
@@ -88,7 +100,7 @@ class StartMenuScene extends Phaser.Scene {
         "pointerdown",
         () => {
           this.sound.play("clickSound");
-          this.changeSelectedItem(i);
+          this.selectOption(i);
         },
         this
       );
@@ -96,6 +108,7 @@ class StartMenuScene extends Phaser.Scene {
     }
     this.selectedItem = newIndex;
   }
+
   showMenu() {
     console.log("showMenu function called");
 
@@ -107,54 +120,26 @@ class StartMenuScene extends Phaser.Scene {
       document.getElementById("game-title").style.display = "block";
     }
 
-    let menuItems = ["Start Game", "Story"];
-    let selectedItem = 0;
-    let menuTexts = [];
-
-    let changeSelectedItem = (newIndex) => {
-      console.log(`Selected index changed to ${newIndex}`);
-      menuTexts.forEach((text) => text.destroy());
-      menuTexts = [];
-      for (let i = 0; i < menuItems.length; i++) {
-        let yPosition = 500 + i * 50;
-        let color = i === newIndex ? "#ff00ff" : "#fff";
-        let text = this.add
-          .text(this.cameras.main.centerX, yPosition, menuItems[i], {
-            fontFamily: '"Press Start 2P"',
-            fontSize: "24px",
-            fill: color
-          })
-          .setOrigin(0.5, 0.5)
-          .setInteractive({ useHandCursor: true });
-        text.on(
-          "pointerdown",
-          () => {
-            this.sound.play("clickSound");
-            changeSelectedItem(i);
-          },
-          this
-        );
-        menuTexts.push(text);
-      }
-      selectedItem = newIndex;
-    };
-
-    changeSelectedItem(selectedItem);
+    this.selectedItem = 0;
+    this.changeSelectedItem(this.selectedItem); // Changed this line
 
     this.input.keyboard.on("keydown-UP", () => {
       this.sound.play("clickSound");
-      changeSelectedItem(
-        (selectedItem - 1 + menuItems.length) % menuItems.length
-      );
+      this.changeSelectedItem(
+        (this.selectedItem - 1 + this.activeMenuItems.length) %
+          this.activeMenuItems.length
+      ); // Changed this line
     });
 
     this.input.keyboard.on("keydown-DOWN", () => {
       this.sound.play("clickSound");
-      changeSelectedItem((selectedItem + 1) % menuItems.length);
+      this.changeSelectedItem(
+        (this.selectedItem + 1) % this.activeMenuItems.length
+      ); // Changed this line
     });
 
     this.input.keyboard.on("keydown-ENTER", () => {
-      this.selectOption(selectedItem);
+      this.selectOption(this.selectedItem);
     });
 
     if (!this.music || !this.music.isPlaying) {
@@ -186,16 +171,17 @@ class StartMenuScene extends Phaser.Scene {
     if (currentDirection !== this.lastDirection) {
       if (currentDirection === "up") {
         this.changeSelectedItem(
-          (this.selectedItem - 1 + this.menuItems.length) %
-            this.menuItems.length
+          (this.selectedItem - 1 + this.activeMenuItems.length) %
+            this.activeMenuItems.length
         );
         this.setInputCooldown();
       } else if (currentDirection === "down") {
         this.changeSelectedItem(
-          (this.selectedItem + 1) % this.menuItems.length
+          (this.selectedItem + 1) % this.activeMenuItems.length
         );
         this.setInputCooldown();
       }
+
       this.lastDirection = currentDirection;
     }
   }
@@ -215,17 +201,29 @@ class StartMenuScene extends Phaser.Scene {
     console.log("Selected Option:", selectedItem);
     this.sound.play("selectSound");
 
-    if (selectedItem === 0) {
-      console.log("Selected Start Game - proceeding to Level1Scene");
+    if (
+      !this.subMenuActive &&
+      this.activeMenuItems[selectedItem] === "Level Select"
+    ) {
+      this.subMenuActive = true;
+      this.activeMenuItems = this.levelItems;
+      this.showMenu();
+    } else if (
+      this.subMenuActive ||
+      this.activeMenuItems[selectedItem] !== "Level Select"
+    ) {
       if (this.music) {
         this.music.stop();
       }
-      this.scene.start("Level1Scene");
-    } else if (selectedItem === 1) {
-      console.log("Selected Story - proceeding to StoryScene");
-      this.enterStoryScene();
-    } else {
-      console.error("Invalid selected item:", selectedItem);
+      if (this.activeMenuItems[selectedItem] === "Story") {
+        this.subMenuActive = false; // Resetting subMenuActive
+        this.activeMenuItems = this.menuItems; // Resetting activeMenuItems
+        this.enterStoryScene();
+      } else {
+        this.subMenuActive = false; // Consider resetting state
+        this.activeMenuItems = this.menuItems; // Consider resetting to main menu
+        this.scene.start(`Level${selectedItem + 1}Scene`);
+      }
     }
   }
 }
