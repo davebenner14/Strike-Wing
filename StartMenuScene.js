@@ -121,21 +121,21 @@ class StartMenuScene extends Phaser.Scene {
     }
 
     this.selectedItem = 0;
-    this.changeSelectedItem(this.selectedItem); // Changed this line
+    this.changeSelectedItem(this.selectedItem);
 
     this.input.keyboard.on("keydown-UP", () => {
       this.sound.play("clickSound");
       this.changeSelectedItem(
         (this.selectedItem - 1 + this.activeMenuItems.length) %
           this.activeMenuItems.length
-      ); // Changed this line
+      );
     });
 
     this.input.keyboard.on("keydown-DOWN", () => {
       this.sound.play("clickSound");
       this.changeSelectedItem(
         (this.selectedItem + 1) % this.activeMenuItems.length
-      ); // Changed this line
+      );
     });
 
     this.input.keyboard.on("keydown-ENTER", () => {
@@ -216,12 +216,12 @@ class StartMenuScene extends Phaser.Scene {
         this.music.stop();
       }
       if (this.activeMenuItems[selectedItem] === "Story") {
-        this.subMenuActive = false; // Resetting subMenuActive
-        this.activeMenuItems = this.menuItems; // Resetting activeMenuItems
+        this.subMenuActive = false;
+        this.activeMenuItems = this.menuItems;
         this.enterStoryScene();
       } else {
-        this.subMenuActive = false; // Consider resetting state
-        this.activeMenuItems = this.menuItems; // Consider resetting to main menu
+        this.subMenuActive = false;
+        this.activeMenuItems = this.menuItems;
         this.scene.start(`Level${selectedItem + 1}Scene`);
       }
     }
