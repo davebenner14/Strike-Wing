@@ -222,7 +222,10 @@ class StartMenuScene extends Phaser.Scene {
       } else {
         this.subMenuActive = false;
         this.activeMenuItems = this.menuItems;
+
+        console.log(`Attempting to start Level${selectedItem + 1}Scene`); // Add this log
         this.scene.start(`Level${selectedItem + 1}Scene`);
+        console.log(`Level${selectedItem + 1}Scene should have started`); // Add this log
       }
     }
   }

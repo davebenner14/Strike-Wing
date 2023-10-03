@@ -1,16 +1,18 @@
-import VirtualJoystick from "./VirtualJoystick.js";
 import VirtualJoystickGraphic from "./VirtualJoystick.js";
 
 export default class Level2Scene extends Phaser.Scene {
   constructor() {
     super({ key: "Level2Scene" });
+    console.log("Level2Scene constructor called");
   }
 
   preload() {
+    console.log("Level2Scene preload started");
     this.load.audio(
       "risingWave",
-      "assets/audio/Dubmood_&_Zabutom_-_Rising_Wave.mp3"
+      "assets/audio/Zabutom_-_Zeta_Force_Level_2_[XM]_(Oscilloscope_View).mp3"
     );
+
     this.load.image("sky", "assets/images/backgrounds/level2/sky.png");
     this.load.image(
       "farClouds",
@@ -31,13 +33,18 @@ export default class Level2Scene extends Phaser.Scene {
     this.load.image("trees", "assets/images/backgrounds/level2/trees.png");
     this.load.image("jet1", "assets/images/planes/jet1.png");
     this.load.image("jet2", "assets/images/planes/jet2.png");
+    console.log("Level2Scene preload ended");
   }
 
   create() {
+    console.log("Level2Scene create start");
+
     document.getElementById("game-title").style.display = "none";
 
     this.music = this.sound.add("risingWave", { loop: true });
+    console.log("Music added:", !!this.music);
     this.music.play();
+    console.log("Music play called");
 
     this.sky = this.add
       .tileSprite(0, 0, this.scale.width, this.scale.height, "sky")
@@ -66,6 +73,8 @@ export default class Level2Scene extends Phaser.Scene {
     this.plane.setScale(0.5);
 
     this.joystick = new VirtualJoystickGraphic(this, 100, 500);
+
+    console.log("Level2Scene create end");
   }
 
   update() {
