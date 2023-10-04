@@ -82,8 +82,6 @@ export default class Level2Scene extends Phaser.Scene {
   }
 
   update() {
-    console.log("Update function called");
-
     this.updateBackgroundPosition("farClouds", 0.5);
     this.updateBackgroundPosition("nearClouds", 0.75);
     this.updateBackgroundPosition("farMountains", 1);
