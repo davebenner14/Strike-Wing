@@ -90,7 +90,6 @@ export default class Level4Scene extends Phaser.Scene {
   create() {
     this.music = this.sound.add("music", { loop: false });
     this.music.play();
-
     this.secondMusic = this.sound.add("secondMusic", { loop: true });
 
     this.initBackgroundSprite("layer11", "layer11", 0.1);
@@ -101,10 +100,30 @@ export default class Level4Scene extends Phaser.Scene {
     this.initBackgroundSprite("layer6", "layer6", 0.35);
     this.initBackgroundSprite("layer5", "layer5", 0.4);
     this.initBackgroundSprite("layer4", "layer4", 0.45);
-    this.initBackgroundSprite("layer3", "layer3", 0.5);
-    this.initBackgroundSprite("layer2", "layer2", 0.55);
-    this.initBackgroundSprite("layer1", "layer1", 0.6);
-    this.initBackgroundSprite("layer0", "layer0", 0.65);
+    this.initBackgroundSprite("layer3", "layer3", 1);
+    this.initBackgroundSprite("layer2", "layer2", 1);
+    this.initBackgroundSprite("layer1", "layer1", 6);
+    this.initBackgroundSprite("layer0", "layer0", 6);
+
+    this.new_bg = this.add.sprite(0, 0, "background1").setOrigin(0, 0);
+    this.new_bg.displayWidth = this.scale.width;
+    this.new_bg.displayHeight = this.scale.height;
+    this.new_bg.setAlpha(0);
+
+    this.new_far_trees = this.add.sprite(0, 0, "background3").setOrigin(0, 0);
+    this.new_far_trees.displayWidth = this.scale.width;
+    this.new_far_trees.displayHeight = this.scale.height;
+    this.new_far_trees.setAlpha(0);
+
+    this.new_mid_trees = this.add.sprite(0, 0, "background4").setOrigin(0, 0);
+    this.new_mid_trees.displayWidth = this.scale.width;
+    this.new_mid_trees.displayHeight = this.scale.height;
+    this.new_mid_trees.setAlpha(0);
+
+    this.new_close_trees = this.add.sprite(0, 0, "background2").setOrigin(0, 0);
+    this.new_close_trees.displayWidth = this.scale.width;
+    this.new_close_trees.displayHeight = this.scale.height;
+    this.new_close_trees.setAlpha(0);
 
     this.fogVideo = this.add.video(
       this.scale.width / 2,
@@ -131,18 +150,33 @@ export default class Level4Scene extends Phaser.Scene {
           duration: 10000,
           ease: "Linear"
         });
-      }
-    });
 
-    this.time.addEvent({
-      delay: 84000,
-      callback: () => {
-        this.tweens.add({
-          targets: this.fogVideo,
-          alpha: 0.1,
-          duration: 10000,
-          ease: "Linear"
-        });
+        this.time.delayedCall(
+          5000,
+          () => {
+            this.tweens.add({
+              targets: [
+                this.new_bg,
+                this.new_far_trees,
+                this.new_mid_trees,
+                this.new_close_trees
+              ],
+              alpha: 1,
+              duration: 5000,
+              ease: "Linear",
+              onComplete: () => {
+                this.tweens.add({
+                  targets: this.fogVideo,
+                  alpha: 0.1,
+                  duration: 10000,
+                  ease: "Linear"
+                });
+              }
+            });
+          },
+          [],
+          this
+        );
       }
     });
 

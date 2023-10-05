@@ -47,7 +47,6 @@ export default class Level2Scene extends Phaser.Scene {
       this.sky.displayWidth = this.scale.width;
       this.sky.displayHeight = this.scale.height;
 
-      // Initializing two sprites for each background element for seamless scrolling
       this.initBackgroundSprite("farClouds", "far-clouds");
       this.initBackgroundSprite("nearClouds", "near-clouds");
       this.initBackgroundSprite("farMountains", "far-mountains");
