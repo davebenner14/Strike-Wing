@@ -84,8 +84,12 @@ class StartMenuScene extends Phaser.Scene {
     console.log(`Selected index changed to ${newIndex}`);
     this.menuTexts.forEach((text) => text.destroy());
     this.menuTexts = [];
+    const itemHeight = 50;
+    const totalHeight = this.activeMenuItems.length * itemHeight;
+    const startY = (this.cameras.main.height - totalHeight) / 2;
+
     for (let i = 0; i < this.activeMenuItems.length; i++) {
-      let yPosition = 500 + i * 50;
+      let yPosition = startY + i * itemHeight;
       let color = i === newIndex ? "#ff00ff" : "#fff";
       let text = this.add
         .text(this.cameras.main.centerX, yPosition, this.activeMenuItems[i], {
@@ -118,6 +122,9 @@ class StartMenuScene extends Phaser.Scene {
 
     if (this.shouldDisplayTitle) {
       document.getElementById("game-title").style.display = "block";
+      this.shouldDisplayTitle = false;
+    } else {
+      document.getElementById("game-title").style.display = "none";
     }
 
     this.selectedItem = 0;
@@ -205,6 +212,8 @@ class StartMenuScene extends Phaser.Scene {
       !this.subMenuActive &&
       this.activeMenuItems[selectedItem] === "Level Select"
     ) {
+      document.getElementById("game-title").style.display = "none";
+
       this.subMenuActive = true;
       this.activeMenuItems = this.levelItems;
       this.showMenu();
@@ -215,6 +224,7 @@ class StartMenuScene extends Phaser.Scene {
       if (this.music) {
         this.music.stop();
       }
+
       if (this.activeMenuItems[selectedItem] === "Story") {
         this.subMenuActive = false;
         this.activeMenuItems = this.menuItems;
@@ -223,9 +233,9 @@ class StartMenuScene extends Phaser.Scene {
         this.subMenuActive = false;
         this.activeMenuItems = this.menuItems;
 
-        console.log(`Attempting to start Level${selectedItem + 1}Scene`); // Add this log
+        console.log(`Attempting to start Level${selectedItem + 1}Scene`);
         this.scene.start(`Level${selectedItem + 1}Scene`);
-        console.log(`Level${selectedItem + 1}Scene should have started`); // Add this log
+        console.log(`Level${selectedItem + 1}Scene should have started`);
       }
     }
   }
