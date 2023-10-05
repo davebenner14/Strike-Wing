@@ -9,6 +9,26 @@ export default class Level4Scene extends Phaser.Scene {
   preload() {
     this.load.image("jet1", "assets/images/planes/jet1.png");
     this.load.image("jet2", "assets/images/planes/jet2.png");
+    this.load.audio(
+      "secondMusic",
+      "assets/audio/level4/Dubmood_-_Insert_No_Coins.mp3"
+    );
+    this.load.image(
+      "background1",
+      "assets/images/backgrounds/level4-2/parallax-demon-woods-bg.png"
+    );
+    this.load.image(
+      "background2",
+      "assets/images/backgrounds/level4-2/parallax-demon-woods-close-trees.png"
+    );
+    this.load.image(
+      "background3",
+      "assets/images/backgrounds/level4-2/parallax-demon-woods-far-trees.png"
+    );
+    this.load.image(
+      "background4",
+      "assets/images/backgrounds/level4-2/parallax-demon-woods-mid-trees.png"
+    );
     this.load.video(
       "fog",
       "assets/images/backgrounds/level4/vecteezy_animation-of-fog-on-a-black-background-mystery-fog-abstract_9696037_428.mp4"
@@ -67,10 +87,11 @@ export default class Level4Scene extends Phaser.Scene {
       "assets/images/backgrounds/level4/Layer_0011_0.png"
     );
   }
-
   create() {
-    this.music = this.sound.add("music", { loop: true });
+    this.music = this.sound.add("music", { loop: false });
     this.music.play();
+
+    this.secondMusic = this.sound.add("secondMusic", { loop: true });
 
     this.initBackgroundSprite("layer11", "layer11", 0.1);
     this.initBackgroundSprite("layer10", "layer10", 0.15);
@@ -80,10 +101,10 @@ export default class Level4Scene extends Phaser.Scene {
     this.initBackgroundSprite("layer6", "layer6", 0.35);
     this.initBackgroundSprite("layer5", "layer5", 0.4);
     this.initBackgroundSprite("layer4", "layer4", 0.45);
-    this.initBackgroundSprite("layer3", "layer3", 1);
-    this.initBackgroundSprite("layer2", "layer2", 1);
-    this.initBackgroundSprite("layer1", "layer1", 6);
-    this.initBackgroundSprite("layer0", "layer0", 6);
+    this.initBackgroundSprite("layer3", "layer3", 0.5);
+    this.initBackgroundSprite("layer2", "layer2", 0.55);
+    this.initBackgroundSprite("layer1", "layer1", 0.6);
+    this.initBackgroundSprite("layer0", "layer0", 0.65);
 
     this.fogVideo = this.add.video(
       this.scale.width / 2,
@@ -93,13 +114,43 @@ export default class Level4Scene extends Phaser.Scene {
     this.fogVideo.play(true);
     this.fogVideo.setDisplaySize(this.scale.width, this.scale.height);
     this.fogVideo.setAlpha(1);
+
     this.tweens.add({
       targets: this.fogVideo,
-      alpha: 0,
+      alpha: 0.1,
       duration: 20000,
-      ease: "Linear",
-      onComplete: () => {
-        this.fogVideo.destroy();
+      ease: "Linear"
+    });
+
+    this.time.addEvent({
+      delay: 74000,
+      callback: () => {
+        this.tweens.add({
+          targets: this.fogVideo,
+          alpha: 1,
+          duration: 10000,
+          ease: "Linear"
+        });
+      }
+    });
+
+    this.time.addEvent({
+      delay: 84000,
+      callback: () => {
+        this.tweens.add({
+          targets: this.fogVideo,
+          alpha: 0.1,
+          duration: 10000,
+          ease: "Linear"
+        });
+      }
+    });
+
+    this.time.addEvent({
+      delay: 79000,
+      callback: () => {
+        this.music.stop();
+        this.secondMusic.play();
       }
     });
 
