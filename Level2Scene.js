@@ -82,11 +82,11 @@ export default class Level2Scene extends Phaser.Scene {
   }
 
   update() {
-    this.updateBackgroundPosition("farClouds", 0.5);
-    this.updateBackgroundPosition("nearClouds", 0.75);
+    this.updateBackgroundPosition("farClouds", 0.25);
+    this.updateBackgroundPosition("nearClouds", 0.5);
     this.updateBackgroundPosition("farMountains", 1);
-    this.updateBackgroundPosition("mountains", 1.25);
-    this.updateBackgroundPosition("trees", 6);
+    this.updateBackgroundPosition("mountains", 1.5);
+    this.updateBackgroundPosition("trees", 20);
 
     if (this.joystick.dragging) {
       const deltaX = this.joystick.stickCircle.x - this.joystick.x;

@@ -33,33 +33,28 @@ export default class Level1Scene extends Phaser.Scene {
     this.load.image("jet2", "assets/images/planes/jet2.png");
   }
   create() {
-    console.log("Level2Scene create start");
-
     document.getElementById("game-title").style.display = "none";
 
     this.music = this.sound.add("risingWave", { loop: true });
-    console.log("Music added:", !!this.music);
     this.music.play();
-    console.log("Music play called");
 
-    this.sky = this.add
-      .tileSprite(0, 0, this.scale.width, this.scale.height, "sky")
+    this.background1 = this.add
+      .tileSprite(0, 0, this.scale.width, this.scale.height, "background1")
       .setOrigin(0, 0);
-    this.farClouds = this.add
-      .tileSprite(0, 0, this.scale.width, this.scale.height, "farClouds")
+    this.background2 = this.add
+      .tileSprite(0, 0, this.scale.width, this.scale.height, "background2")
       .setOrigin(0, 0);
-    this.nearClouds = this.add
-      .tileSprite(0, 0, this.scale.width, this.scale.height, "nearClouds")
+    this.background3 = this.add
+      .tileSprite(0, 0, this.scale.width, this.scale.height, "background3")
       .setOrigin(0, 0);
-    this.farMountains = this.add
-      .tileSprite(0, 0, this.scale.width, this.scale.height, "farMountains")
-      .setOrigin(0, 0);
-    this.mountains = this.add
-      .tileSprite(0, 0, this.scale.width, this.scale.height, "mountains")
-      .setOrigin(0, 0);
-    this.trees = this.add
-      .tileSprite(0, 0, this.scale.width, this.scale.height, "trees")
-      .setOrigin(0, 0);
+
+    for (let i = 0; i < 10; i++) {
+      const x = Math.random() * this.scale.width;
+      const y = Math.random() * this.scale.height * 0.5;
+      const cloudIndex = Math.ceil(Math.random() * 8);
+      const cloud = this.add.image(x, y, `cloud${cloudIndex}`);
+      cloud.setScrollFactor(Math.random() * 0.5 + 0.5);
+    }
 
     this.plane = this.add.sprite(
       this.scale.width * 0.1,
@@ -69,49 +64,33 @@ export default class Level1Scene extends Phaser.Scene {
     this.plane.setScale(0.5);
 
     this.joystick = new VirtualJoystickGraphic(this, 100, 500);
-
-    console.log("Level2Scene create end");
   }
-
   update() {
-    console.log("Update function called");
-    // Updating the position of each background layer to create a scrolling effect
-    this.sky.tilePositionX += 2; // adjusted from 0.1
-    this.farClouds.tilePositionX += 4; // adjusted from 0.2
-    this.nearClouds.tilePositionX += 6; // adjusted from 0.3
-    this.farMountains.tilePositionX += 8; // adjusted from 0.4
-    this.mountains.tilePositionX += 10; // adjusted from 0.5
-    this.trees.tilePositionX += 12; // adjusted from 0.6
+    this.background1.tilePositionX += 0.5;
+    this.background2.tilePositionX += 5.5;
+    this.background3.tilePositionX += 6;
 
-    // Checking if the joystick is being dragged
     if (this.joystick.dragging) {
       const deltaX = this.joystick.stickCircle.x - this.joystick.x;
       const deltaY = this.joystick.stickCircle.y - this.joystick.y;
 
-      // Updating the position of the plane based on joystick movement
       this.plane.x += deltaX * 0.1;
       this.plane.y += deltaY * 0.1;
 
-      // Checking if there is vertical movement in the joystick
       if (deltaY != 0) {
-        // If there is vertical movement, initiate a timer if not already present
         if (!this.changeTimer) {
           this.changeTimer = this.time.now;
         }
-
-        // If a second has passed since the timer started, change the texture of the plane
         if (this.time.now - this.changeTimer > 1000) {
           this.plane.setTexture("jet2");
           this.plane.setScale(0.25);
         }
       } else {
-        // If there is no vertical movement, reset the timer and set the plane texture to "jet1"
         this.changeTimer = null;
         this.plane.setTexture("jet1");
         this.plane.setScale(0.2);
       }
     } else {
-      // If the joystick is not being dragged, reset the timer and set the plane texture to "jet1"
       this.changeTimer = null;
       this.plane.setTexture("jet1");
       this.plane.setScale(0.2);

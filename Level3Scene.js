@@ -65,7 +65,7 @@ export default class Level3Scene extends Phaser.Scene {
 
   update() {
     this.updateBackgroundPosition("sand", 0.5);
-    this.updateBackgroundPosition("foreground", 1);
+    this.updateBackgroundPosition("foreground", 3);
 
     if (this.joystick.dragging) {
       const deltaX = this.joystick.stickCircle.x - this.joystick.x;
