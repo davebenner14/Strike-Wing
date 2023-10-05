@@ -11,7 +11,6 @@ export default class Level4Scene extends Phaser.Scene {
       "astroSurfing",
       "assets/audio/level4/Dubmood_&_Zabutom_-_Astro_Surfing.mp3"
     );
-    // Load all your images
     for (let i = 0; i <= 11; i++) {
       this.load.image(
         `layer${i}`,
@@ -51,8 +50,7 @@ export default class Level4Scene extends Phaser.Scene {
         this.scale.height / 2,
         "jet1"
       );
-      this.plane.setScale(0.5);
-
+      this.plane.setScale(0.25);
       this.joystick = new VirtualJoystickGraphic(this, 100, 500);
 
       console.log("Level4Scene create end");
@@ -78,6 +76,32 @@ export default class Level4Scene extends Phaser.Scene {
   update() {
     for (let i = 0; i <= 11; i++) {
       this.updateBackgroundPosition(`layer${i}`, this[`layer${i}Speed`]);
+    }
+
+    if (this.joystick && this.joystick.dragging) {
+      const deltaX = this.joystick.stickCircle.x - this.joystick.x;
+      const deltaY = this.joystick.stickCircle.y - this.joystick.y;
+
+      this.plane.x += deltaX * 0.1;
+      this.plane.y += deltaY * 0.1;
+
+      if (deltaY !== 0) {
+        if (!this.changeTimer) {
+          this.changeTimer = this.time.now;
+        }
+        if (this.time.now - this.changeTimer > 1000) {
+          this.plane.setTexture("jet2");
+          this.plane.setScale(0.25); // Adjust this value as per your visual requirements
+        }
+      } else {
+        this.changeTimer = null;
+        this.plane.setTexture("jet1");
+        this.plane.setScale(0.2); // Adjust this value as per your visual requirements
+      }
+    } else {
+      this.changeTimer = null;
+      this.plane.setTexture("jet1");
+      this.plane.setScale(0.2); // Adjust this value as per your visual requirements
     }
   }
 
