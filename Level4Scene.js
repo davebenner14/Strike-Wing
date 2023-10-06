@@ -87,6 +87,7 @@ export default class Level4Scene extends Phaser.Scene {
       "assets/images/backgrounds/level4/Layer_0011_0.png"
     );
   }
+
   create() {
     this.music = this.sound.add("music", { loop: false, volume: 1 });
     this.music.play();
@@ -222,11 +223,31 @@ export default class Level4Scene extends Phaser.Scene {
 
     this[varName + "Speed"] = speed;
   }
+  initNewBackgroundSprite(varName, assetKey, speed) {
+    this[varName + "1"] = this.add.sprite(0, 0, assetKey).setOrigin(0, 0);
+    this[varName + "1"].displayWidth = this.scale.width;
+    this[varName + "1"].displayHeight = this.scale.height;
+    this[varName + "1"].setAlpha(0);
 
+    this[varName + "2"] = this.add
+      .sprite(this.scale.width, 0, assetKey)
+      .setOrigin(0, 0);
+    this[varName + "2"].displayWidth = this.scale.width;
+    this[varName + "2"].displayHeight = this.scale.height;
+    this[varName + "2"].setAlpha(0);
+
+    this[varName + "Speed"] = speed;
+  }
   update() {
     for (let i = 0; i <= 11; i++) {
       this.updateBackgroundPosition(`layer${i}`, this[`layer${i}Speed`]);
     }
+
+    // Updating new background assets
+    this.updateBackgroundPosition("new_bg", this.new_bgSpeed);
+    this.updateBackgroundPosition("new_far_trees", this.new_far_treesSpeed);
+    this.updateBackgroundPosition("new_mid_trees", this.new_mid_treesSpeed);
+    this.updateBackgroundPosition("new_close_trees", this.new_close_treesSpeed);
 
     if (this.joystick && this.joystick.dragging) {
       const deltaX = this.joystick.stickCircle.x - this.joystick.x;
@@ -251,6 +272,7 @@ export default class Level4Scene extends Phaser.Scene {
       this.plane.setScale(0.2);
     }
   }
+
   updateBackgroundPosition(varName, speed) {
     this[varName + "1"].x -= speed;
     this[varName + "2"].x -= speed;
