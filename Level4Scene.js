@@ -88,9 +88,9 @@ export default class Level4Scene extends Phaser.Scene {
     );
   }
   create() {
-    this.music = this.sound.add("music", { loop: false });
+    this.music = this.sound.add("music", { loop: false, volume: 1 });
     this.music.play();
-    this.secondMusic = this.sound.add("secondMusic", { loop: true });
+    this.secondMusic = this.sound.add("secondMusic", { loop: true, volume: 0 });
 
     this.initBackgroundSprite("layer11", "layer11", 0.1);
     this.initBackgroundSprite("layer10", "layer10", 0.15);
@@ -145,6 +145,26 @@ export default class Level4Scene extends Phaser.Scene {
       delay: 74000,
       callback: () => {
         this.tweens.add({
+          targets: this.music,
+          volume: 0,
+          duration: 5000,
+          ease: "Linear"
+        });
+
+        this.tweens.add({
+          targets: this.secondMusic,
+          volume: 1,
+          duration: 5000,
+          ease: "Linear",
+          onStart: () => {
+            this.secondMusic.play();
+          },
+          onComplete: () => {
+            this.music.stop();
+          }
+        });
+
+        this.tweens.add({
           targets: this.fogVideo,
           alpha: 1,
           duration: 10000,
@@ -177,14 +197,6 @@ export default class Level4Scene extends Phaser.Scene {
           [],
           this
         );
-      }
-    });
-
-    this.time.addEvent({
-      delay: 79000,
-      callback: () => {
-        this.music.stop();
-        this.secondMusic.play();
       }
     });
 
