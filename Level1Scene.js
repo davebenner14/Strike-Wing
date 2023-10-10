@@ -41,12 +41,6 @@ export default class Level1Scene extends Phaser.Scene {
     this.background1 = this.add
       .tileSprite(0, 0, this.scale.width, this.scale.height, "background1")
       .setOrigin(0, 0);
-    this.background2 = this.add
-      .tileSprite(0, 0, this.scale.width, this.scale.height, "background2")
-      .setOrigin(0, 0);
-    this.background3 = this.add
-      .tileSprite(0, 0, this.scale.width, this.scale.height, "background3")
-      .setOrigin(0, 0);
 
     for (let i = 0; i < 10; i++) {
       const x = Math.random() * this.scale.width;
@@ -55,6 +49,13 @@ export default class Level1Scene extends Phaser.Scene {
       const cloud = this.add.image(x, y, `cloud${cloudIndex}`);
       cloud.setScrollFactor(Math.random() * 0.5 + 0.5);
     }
+
+    this.background2 = this.add
+      .tileSprite(0, 0, this.scale.width, this.scale.height, "background2")
+      .setOrigin(0, 0);
+    this.background3 = this.add
+      .tileSprite(0, 0, this.scale.width, this.scale.height, "background3")
+      .setOrigin(0, 0);
 
     this.plane = this.add.sprite(
       this.scale.width * 0.1,
@@ -65,10 +66,11 @@ export default class Level1Scene extends Phaser.Scene {
 
     this.joystick = new VirtualJoystickGraphic(this, 100, 500);
   }
+
   update() {
     this.background1.tilePositionX += 0.5;
     this.background2.tilePositionX += 5.5;
-    this.background3.tilePositionX += 6;
+    this.background3.tilePositionX += 12;
 
     if (this.joystick.dragging) {
       const deltaX = this.joystick.stickCircle.x - this.joystick.x;
