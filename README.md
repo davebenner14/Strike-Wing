@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://cdn.dribbble.com/users/1393058/screenshots/3926536/media/d4e3a3e4ae633abe1248079cd60487c2.gif" width="60" height="60">
-  <h1><b>Strike Wing</b></h1>
+  <h1 style="display:inline;"><b>Strike Wing</b></h1>
   <img src="https://cdn.dribbble.com/users/1393058/screenshots/3926536/media/d4e3a3e4ae633abe1248079cd60487c2.gif" width="60" height="60">
 </p>
 
