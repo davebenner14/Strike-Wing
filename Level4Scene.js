@@ -9,33 +9,10 @@ export default class Level4Scene extends Phaser.Scene {
   preload() {
     this.load.image("jet1", "assets/images/planes/jet1.png");
     this.load.image("jet2", "assets/images/planes/jet2.png");
+
     this.load.audio(
-      "secondMusic",
+      "insertNoCoins",
       "assets/audio/level4/Dubmood_-_Insert_No_Coins.mp3"
-    );
-    this.load.image(
-      "background1",
-      "assets/images/backgrounds/level4-2/parallax-demon-woods-bg.png"
-    );
-    this.load.image(
-      "background2",
-      "assets/images/backgrounds/level4-2/parallax-demon-woods-close-trees.png"
-    );
-    this.load.image(
-      "background3",
-      "assets/images/backgrounds/level4-2/parallax-demon-woods-far-trees.png"
-    );
-    this.load.image(
-      "background4",
-      "assets/images/backgrounds/level4-2/parallax-demon-woods-mid-trees.png"
-    );
-    this.load.video(
-      "fog",
-      "assets/images/backgrounds/level4/vecteezy_animation-of-fog-on-a-black-background-mystery-fog-abstract_9696037_428.mp4"
-    );
-    this.load.audio(
-      "music",
-      "assets/audio/level4/Dubmood_&_Zabutom_-_Astro_Surfing.mp3"
     );
 
     this.load.image(
@@ -55,7 +32,7 @@ export default class Level4Scene extends Phaser.Scene {
       "assets/images/backgrounds/level4/Layer_0003_6.png"
     );
     this.load.image(
-      "layer4",
+      "layer4Lights",
       "assets/images/backgrounds/level4/Layer_0004_Lights.png"
     );
     this.load.image(
@@ -67,7 +44,7 @@ export default class Level4Scene extends Phaser.Scene {
       "assets/images/backgrounds/level4/Layer_0006_4.png"
     );
     this.load.image(
-      "layer7",
+      "layer7Lights",
       "assets/images/backgrounds/level4/Layer_0007_Lights.png"
     );
     this.load.image(
@@ -79,184 +56,82 @@ export default class Level4Scene extends Phaser.Scene {
       "assets/images/backgrounds/level4/Layer_0009_2.png"
     );
     this.load.image(
-      "layer10",
-      "assets/images/backgrounds/level4/Layer_0010_1.png"
-    );
-    this.load.image(
       "layer11",
       "assets/images/backgrounds/level4/Layer_0011_0.png"
     );
   }
-
   create() {
-    this.music = this.sound.add("music", { loop: false, volume: 1 });
+    console.log("Level4Scene create start");
+
+    const backgrounds = [
+      { key: "layer11", speed: 0.2 },
+      { key: "layer9", speed: 0.4 },
+      { key: "layer8", speed: 0.6 },
+      { key: "layer7Lights", speed: 0.7 },
+      { key: "layer6", speed: 0.8 },
+      { key: "layer5", speed: 1 },
+      { key: "layer4Lights", speed: 1.2 },
+      { key: "layer3", speed: 1.3 },
+      { key: "layer2", speed: 1.3 },
+      { key: "layer1", speed: 12 },
+      { key: "layer0", speed: 30 }
+    ];
+    this.backgrounds = [];
+
+    backgrounds.forEach((bg) => {
+      const layer1 = this.add.sprite(0, 0, bg.key).setOrigin(0, 0);
+      layer1.displayWidth = this.scale.width;
+      layer1.displayHeight = this.scale.height;
+
+      const layer2 = this.add
+        .sprite(this.scale.width, 0, bg.key)
+        .setOrigin(0, 0);
+      layer2.displayWidth = this.scale.width;
+      layer2.displayHeight = this.scale.height;
+
+      this.backgrounds.push({ layer1, layer2, speed: bg.speed });
+    });
+
+    this.music = this.sound.add("insertNoCoins", { loop: true });
     this.music.play();
-    this.secondMusic = this.sound.add("secondMusic", { loop: true, volume: 0 });
-
-    this.initBackgroundSprite("layer11", "layer11", 0.1);
-    this.initBackgroundSprite("layer10", "layer10", 0.15);
-    this.initBackgroundSprite("layer9", "layer9", 0.2);
-    this.initBackgroundSprite("layer8", "layer8", 0.25);
-    this.initBackgroundSprite("layer7", "layer7", 0.3);
-    this.initBackgroundSprite("layer6", "layer6", 0.35);
-    this.initBackgroundSprite("layer5", "layer5", 0.4);
-    this.initBackgroundSprite("layer4", "layer4", 0.45);
-    this.initBackgroundSprite("layer3", "layer3", 1);
-    this.initBackgroundSprite("layer2", "layer2", 1);
-    this.initBackgroundSprite("layer1", "layer1", 6);
-    this.initBackgroundSprite("layer0", "layer0", 6);
-
-    this.new_bg = this.add.sprite(0, 0, "background1").setOrigin(0, 0);
-    this.new_bg.displayWidth = this.scale.width;
-    this.new_bg.displayHeight = this.scale.height;
-    this.new_bg.setAlpha(0);
-
-    this.new_far_trees = this.add.sprite(0, 0, "background3").setOrigin(0, 0);
-    this.new_far_trees.displayWidth = this.scale.width;
-    this.new_far_trees.displayHeight = this.scale.height;
-    this.new_far_trees.setAlpha(0);
-
-    this.new_mid_trees = this.add.sprite(0, 0, "background4").setOrigin(0, 0);
-    this.new_mid_trees.displayWidth = this.scale.width;
-    this.new_mid_trees.displayHeight = this.scale.height;
-    this.new_mid_trees.setAlpha(0);
-
-    this.new_close_trees = this.add.sprite(0, 0, "background2").setOrigin(0, 0);
-    this.new_close_trees.displayWidth = this.scale.width;
-    this.new_close_trees.displayHeight = this.scale.height;
-    this.new_close_trees.setAlpha(0);
-
-    this.fogVideo = this.add.video(
-      this.scale.width / 2,
-      this.scale.height / 2,
-      "fog"
-    );
-    this.fogVideo.play(true);
-    this.fogVideo.setDisplaySize(this.scale.width, this.scale.height);
-    this.fogVideo.setAlpha(1);
-
-    this.tweens.add({
-      targets: this.fogVideo,
-      alpha: 0.1,
-      duration: 20000,
-      ease: "Linear"
-    });
-
-    this.time.addEvent({
-      delay: 74000,
-      callback: () => {
-        this.tweens.add({
-          targets: this.music,
-          volume: 0,
-          duration: 5000,
-          ease: "Linear"
-        });
-
-        this.tweens.add({
-          targets: this.secondMusic,
-          volume: 1,
-          duration: 5000,
-          ease: "Linear",
-          onStart: () => {
-            this.secondMusic.play();
-          },
-          onComplete: () => {
-            this.music.stop();
-          }
-        });
-
-        this.tweens.add({
-          targets: this.fogVideo,
-          alpha: 1,
-          duration: 10000,
-          ease: "Linear"
-        });
-
-        this.time.delayedCall(
-          5000,
-          () => {
-            this.tweens.add({
-              targets: [
-                this.new_bg,
-                this.new_far_trees,
-                this.new_mid_trees,
-                this.new_close_trees
-              ],
-              alpha: 1,
-              duration: 5000,
-              ease: "Linear",
-              onComplete: () => {
-                this.tweens.add({
-                  targets: this.fogVideo,
-                  alpha: 0.1,
-                  duration: 10000,
-                  ease: "Linear"
-                });
-              }
-            });
-          },
-          [],
-          this
-        );
-      }
-    });
 
     this.plane = this.add.sprite(
       this.scale.width * 0.1,
       this.scale.height / 2,
       "jet1"
     );
-    this.plane.setScale(0.25);
+    this.plane.setScale(0.5);
+
     this.joystick = new VirtualJoystickGraphic(this, 100, 500);
+
+    console.log("Level4Scene create end");
   }
 
-  initBackgroundSprite(varName, assetKey, speed) {
-    this[varName + "1"] = this.add.sprite(0, 0, assetKey).setOrigin(0, 0);
-    this[varName + "1"].displayWidth = this.scale.width;
-    this[varName + "1"].displayHeight = this.scale.height;
-
-    this[varName + "2"] = this.add
-      .sprite(this.scale.width, 0, assetKey)
-      .setOrigin(0, 0);
-    this[varName + "2"].displayWidth = this.scale.width;
-    this[varName + "2"].displayHeight = this.scale.height;
-
-    this[varName + "Speed"] = speed;
-  }
-  initNewBackgroundSprite(varName, assetKey, speed) {
-    this[varName + "1"] = this.add.sprite(0, 0, assetKey).setOrigin(0, 0);
-    this[varName + "1"].displayWidth = this.scale.width;
-    this[varName + "1"].displayHeight = this.scale.height;
-    this[varName + "1"].setAlpha(0);
-
-    this[varName + "2"] = this.add
-      .sprite(this.scale.width, 0, assetKey)
-      .setOrigin(0, 0);
-    this[varName + "2"].displayWidth = this.scale.width;
-    this[varName + "2"].displayHeight = this.scale.height;
-    this[varName + "2"].setAlpha(0);
-
-    this[varName + "Speed"] = speed;
-  }
   update() {
-    for (let i = 0; i <= 11; i++) {
-      this.updateBackgroundPosition(`layer${i}`, this[`layer${i}Speed`]);
-    }
+    this.backgrounds.forEach(({ layer1, layer2, speed }) => {
+      layer1.x -= speed;
+      layer2.x -= speed;
 
-    // Updating new background assets
-    this.updateBackgroundPosition("new_bg", this.new_bgSpeed);
-    this.updateBackgroundPosition("new_far_trees", this.new_far_treesSpeed);
-    this.updateBackgroundPosition("new_mid_trees", this.new_mid_treesSpeed);
-    this.updateBackgroundPosition("new_close_trees", this.new_close_treesSpeed);
+      if (layer1.x <= -this.scale.width) {
+        layer1.x = layer2.x + this.scale.width;
+      }
+
+      if (layer2.x <= -this.scale.width) {
+        layer2.x = layer1.x + this.scale.width;
+      }
+    });
 
     if (this.joystick && this.joystick.dragging) {
       const deltaX = this.joystick.stickCircle.x - this.joystick.x;
       const deltaY = this.joystick.stickCircle.y - this.joystick.y;
+
       this.plane.x += deltaX * 0.1;
       this.plane.y += deltaY * 0.1;
 
       if (deltaY !== 0) {
-        if (!this.changeTimer) this.changeTimer = this.time.now;
+        if (!this.changeTimer) {
+          this.changeTimer = this.time.now;
+        }
         if (this.time.now - this.changeTimer > 1000) {
           this.plane.setTexture("jet2");
           this.plane.setScale(0.25);
@@ -270,17 +145,6 @@ export default class Level4Scene extends Phaser.Scene {
       this.changeTimer = null;
       this.plane.setTexture("jet1");
       this.plane.setScale(0.2);
-    }
-  }
-
-  updateBackgroundPosition(varName, speed) {
-    this[varName + "1"].x -= speed;
-    this[varName + "2"].x -= speed;
-    if (this[varName + "1"].x <= -this.scale.width) {
-      this[varName + "1"].x = this[varName + "2"].x + this.scale.width;
-    }
-    if (this[varName + "2"].x <= -this.scale.width) {
-      this[varName + "2"].x = this[varName + "1"].x + this.scale.width;
     }
   }
 }
