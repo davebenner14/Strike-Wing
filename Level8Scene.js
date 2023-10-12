@@ -12,6 +12,10 @@ export default class Level8Scene extends Phaser.Scene {
       "earthBackground",
       "assets/images/backgrounds/level8/Earth.png"
     );
+    this.load.image(
+      "starBackground",
+      "assets/images/backgrounds/level8/Stars Small_1.png"
+    );
     this.load.audio(
       "level8Music",
       "assets/audio/level8/Pampradion_(feat._Zabutom).mp3"
@@ -20,11 +24,14 @@ export default class Level8Scene extends Phaser.Scene {
   create() {
     console.log("Level8Scene create start");
 
-    // Add the background and ensure it fits the game screen
     this.background = this.add.image(0, 0, "earthBackground").setOrigin(0, 0);
-    this.background.setDisplaySize(this.scale.width, this.scale.height); // Adjust the background size
+    this.background.setDisplaySize(this.scale.width, this.scale.height);
 
-    // Adding the plane
+    this.starBackground = this.add
+      .image(0, -this.scale.height, "starBackground")
+      .setOrigin(0, 0);
+    this.starBackground.setDisplaySize(this.scale.width, this.scale.height);
+
     this.plane = this.add.sprite(
       this.scale.width * 0.1,
       this.scale.height / 2,
@@ -32,10 +39,8 @@ export default class Level8Scene extends Phaser.Scene {
     );
     this.plane.setScale(0.5);
 
-    // Adding the joystick
     this.joystick = new VirtualJoystickGraphic(this, 100, 500);
 
-    // Initialize and play background music
     this.music = this.sound.add("level8Music", { loop: true, volume: 0.5 });
     this.music.play();
 
@@ -43,6 +48,11 @@ export default class Level8Scene extends Phaser.Scene {
   }
 
   update() {
+    if (this.starBackground.y < 0) {
+      this.background.y += 0.1;
+      this.starBackground.y += 0.1;
+    }
+
     if (this.joystick && this.joystick.dragging) {
       const deltaX = this.joystick.stickCircle.x - this.joystick.x;
       const deltaY = this.joystick.stickCircle.y - this.joystick.y;
@@ -65,7 +75,5 @@ export default class Level8Scene extends Phaser.Scene {
       this.plane.setTexture("jet1");
       this.plane.setScale(0.2);
     }
-
-    // Add additional update logic needed for Level8 here...
   }
 }
