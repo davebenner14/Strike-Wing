@@ -22,13 +22,18 @@ export default class Level7Scene extends Phaser.Scene {
 
   create() {
     console.log("Level7Scene create start");
-    this.backgrounds = [];
-    for (let i = 1; i <= 5; i++) {
-      const bg = this.add
-        .tileSprite(0, 0, this.scale.width, this.scale.height, `L${i}`)
+
+    const backgrounds = ["L1", "L2", "L3", "L4", "L5"];
+    backgrounds.forEach((bg, i) => {
+      this[`layer${i}1`] = this.add.sprite(0, 0, bg).setOrigin(0, 0);
+      this[`layer${i}1`].displayWidth = this.scale.width;
+      this[`layer${i}1`].displayHeight = this.scale.height;
+      this[`layer${i}2`] = this.add
+        .sprite(this.scale.width, 0, bg)
         .setOrigin(0, 0);
-      this.backgrounds.push(bg);
-    }
+      this[`layer${i}2`].displayWidth = this.scale.width;
+      this[`layer${i}2`].displayHeight = this.scale.height;
+    });
 
     this.music = this.sound.add("nightstop", { loop: true });
     this.music.play();
@@ -46,14 +51,22 @@ export default class Level7Scene extends Phaser.Scene {
   }
 
   update() {
+    this.backgroundsSpeed = [0.5, 5, 2.1, 2, 20];
+    this.backgroundsSpeed.forEach((speed, i) => {
+      this.updateBackgroundPosition(`layer${i}`, speed);
+    });
+
     if (this.joystick && this.joystick.dragging) {
       const deltaX = this.joystick.stickCircle.x - this.joystick.x;
       const deltaY = this.joystick.stickCircle.y - this.joystick.y;
+
       this.plane.x += deltaX * 0.1;
       this.plane.y += deltaY * 0.1;
 
       if (deltaY !== 0) {
-        if (!this.changeTimer) this.changeTimer = this.time.now;
+        if (!this.changeTimer) {
+          this.changeTimer = this.time.now;
+        }
         if (this.time.now - this.changeTimer > 1000) {
           this.plane.setTexture("jet2");
           this.plane.setScale(0.25);
@@ -67,6 +80,19 @@ export default class Level7Scene extends Phaser.Scene {
       this.changeTimer = null;
       this.plane.setTexture("jet1");
       this.plane.setScale(0.2);
+    }
+  }
+
+  updateBackgroundPosition(varName, speed) {
+    this[varName + "1"].x -= speed;
+    this[varName + "2"].x -= speed;
+
+    if (this[varName + "1"].x <= -this.scale.width) {
+      this[varName + "1"].x = this[varName + "2"].x + this.scale.width;
+    }
+
+    if (this[varName + "2"].x <= -this.scale.width) {
+      this[varName + "2"].x = this[varName + "1"].x + this.scale.width;
     }
   }
 }
