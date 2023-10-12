@@ -19,20 +19,22 @@ export default class Level7Scene extends Phaser.Scene {
       "assets/audio/level7/Nightstop_-_Street_Romance.mp3"
     );
   }
-
   create() {
     console.log("Level7Scene create start");
 
     const backgrounds = ["L1", "L2", "L3", "L4", "L5"];
+    this.backgrounds = [];
+
     backgrounds.forEach((bg, i) => {
-      this[`layer${i}1`] = this.add.sprite(0, 0, bg).setOrigin(0, 0);
-      this[`layer${i}1`].displayWidth = this.scale.width;
-      this[`layer${i}1`].displayHeight = this.scale.height;
-      this[`layer${i}2`] = this.add
-        .sprite(this.scale.width, 0, bg)
-        .setOrigin(0, 0);
-      this[`layer${i}2`].displayWidth = this.scale.width;
-      this[`layer${i}2`].displayHeight = this.scale.height;
+      const layer1 = this.add.sprite(0, 0, bg).setOrigin(0, 0);
+      layer1.displayWidth = this.scale.width;
+      layer1.displayHeight = this.scale.height;
+
+      const layer2 = this.add.sprite(this.scale.width, 0, bg).setOrigin(0, 0);
+      layer2.displayWidth = this.scale.width;
+      layer2.displayHeight = this.scale.height;
+
+      this.backgrounds.push({ layer1, layer2 });
     });
 
     this.music = this.sound.add("nightstop", { loop: true });
@@ -51,9 +53,20 @@ export default class Level7Scene extends Phaser.Scene {
   }
 
   update() {
-    this.backgroundsSpeed = [0.5, 5, 2.1, 2, 20];
-    this.backgroundsSpeed.forEach((speed, i) => {
-      this.updateBackgroundPosition(`layer${i}`, speed);
+    const speeds = [0.5, 5, 2.1, 2, 20];
+
+    speeds.forEach((speed, i) => {
+      const { layer1, layer2 } = this.backgrounds[i];
+      layer1.x -= speed;
+      layer2.x -= speed;
+
+      if (layer1.x <= -this.scale.width) {
+        layer1.x = layer2.x + this.scale.width;
+      }
+
+      if (layer2.x <= -this.scale.width) {
+        layer2.x = layer1.x + this.scale.width;
+      }
     });
 
     if (this.joystick && this.joystick.dragging) {
