@@ -1,7 +1,7 @@
 <p align="center">
-  <img src="https://cdn.dribbble.com/users/1393058/screenshots/3926536/media/d4e3a3e4ae633abe1248079cd60487c2.gif" width="30" height="30">
-  <b>Strike Wing</b>
-  <img src="https://cdn.dribbble.com/users/1393058/screenshots/3926536/media/d4e3a3e4ae633abe1248079cd60487c2.gif" width="30" height="30">
+  <img src="https://cdn.dribbble.com/users/1393058/screenshots/3926536/media/d4e3a3e4ae633abe1248079cd60487c2.gif" width="60" height="60">
+  <h1><b>Strike Wing</b></h1>
+  <img src="https://cdn.dribbble.com/users/1393058/screenshots/3926536/media/d4e3a3e4ae633abe1248079cd60487c2.gif" width="60" height="60">
 </p>
 
 Strike Wing is an in-progress, old school 2D fighter jet shooter game inspired by iconic titles like UN Squadron and Thunder Spirits for SNES. Currently embodying a 2D flight simulator, it offers 8 working levels, complete with immersive background environments and accompanying music, along with a compelling background story. A level select feature is available to explore and enjoy each individual level thus far. Note that while the game does not yet feature enemies or weapons functionality, these are planned for future development.
